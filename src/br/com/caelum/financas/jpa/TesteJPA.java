@@ -7,13 +7,16 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import br.com.caelum.financas.modelo.Conta;
+import br.com.caelum.financas.util.JPAUtil;
 
 public class TesteJPA {
 
 	public static void main(String[] args) {
 
+		double inicio = System.currentTimeMillis();
+		
 		Conta conta = new Conta();
-		conta.setTitular("Maria dos Santos");
+		conta.setTitular("Priscila gatinha");
 		conta.setBanco("Caixa");
 		conta.setAgencia("043");
 		conta.setNumero("54321");
@@ -35,15 +38,22 @@ public class TesteJPA {
 		/**
 		 * Usando MySQL
 		 */
-		EntityManagerFactory emf = Persistence
+		/*EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("contas-mysql");
 
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
+		EntityManager manager = emf.createEntityManager();
+		*/
+		EntityManager manager = new JPAUtil().getEntityManager();
+		
+		manager.getTransaction().begin();
 
-		em.persist(conta);
+		manager.persist(conta);
 
-		em.getTransaction().commit();
-		em.close();
+		manager.getTransaction().commit();
+		manager.close();
+		
+		double fim = System.currentTimeMillis();
+		
+		System.out.println("Executado em: " + (fim - inicio)/1000 + "s");
 	}
 }
