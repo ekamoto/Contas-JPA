@@ -16,6 +16,7 @@ public class TesteJPA {
 		double inicio = System.currentTimeMillis();
 		
 		Conta conta = new Conta();
+		conta.setId(1);
 		conta.setTitular("Priscila gatinha");
 		conta.setBanco("Caixa");
 		conta.setAgencia("043");
@@ -43,12 +44,22 @@ public class TesteJPA {
 
 		EntityManager manager = emf.createEntityManager();
 		*/
+		
+		
 		EntityManager manager = new JPAUtil().getEntityManager();
 		
 		manager.getTransaction().begin();
-
-		manager.persist(conta);
-
+		
+		Conta contaBusca = manager.find(Conta.class, 1);
+		
+		//System.out.println(contaBusca.getTitular());
+		
+		//contaBusca.setTitular("titular alterado");
+		
+		manager.remove(contaBusca);
+		
+		System.out.println(conta.getId());
+		//manager.persist(conta);
 		manager.getTransaction().commit();
 		manager.close();
 		
